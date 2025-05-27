@@ -1,9 +1,9 @@
-import { useLocalSearchParams } from 'expo-router';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import {useLocalSearchParams} from 'expo-router';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 export default function VideoPlayer() {
-    const { videoId } = useLocalSearchParams();
+    const {videoId} = useLocalSearchParams();
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.videoContainer}>

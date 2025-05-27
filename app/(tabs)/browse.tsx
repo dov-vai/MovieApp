@@ -1,6 +1,7 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import MovieRow from '@/components/MovieRow';
+import PopularMovieRow from "@/components/PopularMovieRow";
+import GenreMovieRow from "@/components/GenreMovieRow";
 
 export default function Browse() {
     return (
@@ -10,10 +11,10 @@ export default function Browse() {
             </View>
 
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-                <MovieRow title="Popular Movies"/>
-                <MovieRow title="Action Movies" genreId={28}/>
-                <MovieRow title="Comedy Movies" genreId={35}/>
-                <MovieRow title="Drama Movies" genreId={18}/>
+                <PopularMovieRow title="Popular Movies"/>
+                <GenreMovieRow title="Action Movies" genreId={28}/>
+                <GenreMovieRow title="Comedy Movies" genreId={35}/>
+                <GenreMovieRow title="Drama Movies" genreId={18}/>
             </ScrollView>
         </SafeAreaView>
     );

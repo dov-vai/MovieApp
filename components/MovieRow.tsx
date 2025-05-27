@@ -1,17 +1,14 @@
-import {useMovies} from '@/hooks/useMovies';
-import {useSimilarMovies} from '@/hooks/useSimilarMovies';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import MovieCard from './MovieCard';
 
 type Props = {
     title: string,
-    genreId?: number,
-    movieId?: number
+    movies: any[],
+    loading: boolean,
+    error?: string,
 }
 
-export default function MovieRow({title, genreId, movieId}: Props) {
-    const {movies, loading, error} = movieId ? useSimilarMovies(movieId) : useMovies(genreId);
-
+export default function MovieRow({title, movies, loading, error}: Props) {
     if (loading) {
         return (
             <View style={styles.container}>

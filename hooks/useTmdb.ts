@@ -6,7 +6,7 @@ const BASE_URL = process.env.EXPO_PUBLIC_TMDB_BASE_URL;
 export const useTmdb = (endpoint: string, query?: Record<string, string | number | boolean | undefined>) => {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string>();
 
     // memoized because record isn't recognized properly by react
     // and useEffect gets ran again even if query didn't change

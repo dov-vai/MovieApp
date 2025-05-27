@@ -1,9 +1,9 @@
-import MovieRow from '@/components/MovieRow';
 import {useMovieDetails} from '@/hooks/useMovieDetails';
 import {useMovieVideos} from '@/hooks/useMovieVideos';
 import {useLocalSearchParams, useNavigation, useRouter} from 'expo-router';
 import {useEffect} from 'react';
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import SimilarMovieRow from "@/components/SimilarMovieRow";
 
 export default function MovieDetails() {
     const {id} = useLocalSearchParams();
@@ -92,7 +92,7 @@ export default function MovieDetails() {
                         </TouchableOpacity>
                     </View>
 
-                    <MovieRow
+                    <SimilarMovieRow
                         title="Similar Movies"
                         movieId={Number(id)}
                     />
