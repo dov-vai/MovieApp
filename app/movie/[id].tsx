@@ -1,16 +1,14 @@
 import {useMovieDetails} from '@/hooks/useMovieDetails';
-import {useMovieVideos} from '@/hooks/useMovieVideos';
-import {useLocalSearchParams, useNavigation, useRouter} from 'expo-router';
+import {useLocalSearchParams, useNavigation} from 'expo-router';
 import {useEffect} from 'react';
 import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import SimilarMovieRow from "@/components/SimilarMovieRow";
+import {PlayTrailerButton} from "@/components/PlayTrailerButton";
 
 export default function MovieDetails() {
     const {id} = useLocalSearchParams();
-    const router = useRouter();
     const navigation = useNavigation();
     const {movie, loading, error} = useMovieDetails(Number(id));
-    const {videos} = useMovieVideos(Number(id));
 
     useEffect(() => {
         if (movie) {
@@ -19,19 +17,6 @@ export default function MovieDetails() {
             });
         }
     }, [movie, navigation]);
-
-    const handlePlayTrailer = () => {
-        if (!videos)
-            return;
-
-        const trailer: any = videos.find((video: any) =>
-            video.type === 'Trailer' && video.site === 'YouTube'
-        );
-
-        if (trailer) {
-            router.push(`/player/${trailer.key}`);
-        }
-    };
 
     if (loading) {
         return (
@@ -55,10 +40,6 @@ export default function MovieDetails() {
 
     const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-    const hasTrailer = videos ? videos.some((video: any) =>
-        video.type === 'Trailer' && video.site === 'YouTube'
-    ) : false;
-
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -81,11 +62,7 @@ export default function MovieDetails() {
                     </View>
 
                     <View style={styles.buttonContainer}>
-                        {hasTrailer && (
-                            <TouchableOpacity style={styles.playButton} onPress={handlePlayTrailer}>
-                                <Text style={styles.playButtonText}>Play Trailer</Text>
-                            </TouchableOpacity>
-                        )}
+                        <PlayTrailerButton movieId={Number(id)}/>
 
                         <TouchableOpacity style={styles.libraryButton}>
                             <Text style={styles.libraryButtonText}>Add To Library</Text>
@@ -163,17 +140,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         gap: 15,
         marginBottom: 30,
-    },
-    playButton: {
-        backgroundColor: '#007AFF',
-        paddingVertical: 15,
-        borderRadius: 8,
-        alignItems: 'center',
-    },
-    playButtonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: '600',
     },
     libraryButton: {
         backgroundColor: 'white',
