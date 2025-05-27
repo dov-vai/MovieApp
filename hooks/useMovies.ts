@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const API_KEY = process.env.EXPO_PUBLIC_TMDB_API_KEY;
 const BASE_URL = process.env.EXPO_PUBLIC_TMDB_BASE_URL;
@@ -90,4 +90,34 @@ export const useSimilarMovies = (movieId: number) => {
     }, [movieId]);
 
     return {movies, loading, error};
+};
+
+export const useMovieVideos = (movieId: number) => {
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchVideos = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`);
+                const data = await response.json();
+
+                if (data.results) {
+                    setVideos(data.results);
+                }
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (movieId) {
+            fetchVideos();
+        }
+    }, [movieId]);
+
+    return { videos, loading, error };
 };
