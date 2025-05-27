@@ -1,4 +1,5 @@
-import {useMovies, useSimilarMovies} from '@/hooks/useMovies';
+import {useMovies} from '@/hooks/useMovies';
+import {useSimilarMovies} from '@/hooks/useSimilarMovies';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import MovieCard from './MovieCard';
 

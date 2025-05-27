@@ -1,8 +1,9 @@
 import MovieRow from '@/components/MovieRow';
-import { useMovieDetails, useMovieVideos } from '@/hooks/useMovies';
-import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {useMovieDetails} from '@/hooks/useMovieDetails';
+import {useMovieVideos} from '@/hooks/useMovieVideos';
+import {useLocalSearchParams, useNavigation, useRouter} from 'expo-router';
+import {useEffect} from 'react';
+import {Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default function MovieDetails() {
     const {id} = useLocalSearchParams();
@@ -20,6 +21,9 @@ export default function MovieDetails() {
     }, [movie, navigation]);
 
     const handlePlayTrailer = () => {
+        if (!videos)
+            return;
+
         const trailer: any = videos.find((video: any) =>
             video.type === 'Trailer' && video.site === 'YouTube'
         );
@@ -51,9 +55,9 @@ export default function MovieDetails() {
 
     const imageUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-    const hasTrailer = videos.some((video: any) =>
+    const hasTrailer = videos ? videos.some((video: any) =>
         video.type === 'Trailer' && video.site === 'YouTube'
-    );
+    ) : false;
 
     return (
         <SafeAreaView style={styles.container}>
