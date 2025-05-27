@@ -34,3 +34,60 @@ export const useMovies = (genreId?: number) => {
 
     return {movies, loading, error};
 };
+
+export const useMovieDetails = (movieId: number) => {
+    const [movie, setMovie] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMovieDetails = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
+                const data = await response.json();
+                setMovie(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (movieId) {
+            fetchMovieDetails();
+        }
+    }, [movieId]);
+
+    return {movie, loading, error};
+};
+
+export const useSimilarMovies = (movieId: number) => {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchSimilarMovies = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}`);
+                const data = await response.json();
+
+                if (data.results) {
+                    setMovies(data.results);
+                }
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (movieId) {
+            fetchSimilarMovies();
+        }
+    }, [movieId]);
+
+    return {movies, loading, error};
+};

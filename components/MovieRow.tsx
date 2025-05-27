@@ -1,14 +1,15 @@
+import {useMovies, useSimilarMovies} from '@/hooks/useMovies';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {useMovies} from '@/hooks/useMovies';
 import MovieCard from './MovieCard';
 
 type Props = {
     title: string,
     genreId?: number,
+    movieId?: number
 }
 
-export default function MovieRow({title, genreId}: Props) {
-    const {movies, loading, error} = useMovies(genreId);
+export default function MovieRow({title, genreId, movieId}: Props) {
+    const {movies, loading, error} = movieId ? useSimilarMovies(movieId) : useMovies(genreId);
 
     if (loading) {
         return (
@@ -33,7 +34,7 @@ export default function MovieRow({title, genreId}: Props) {
             <Text style={styles.title}>{title}</Text>
             <FlatList
                 data={movies}
-                renderItem={({item}) => <MovieCard title={item.title} posterPath={item.poster_path}/>}
+                renderItem={({item}) => <MovieCard id={item.id} title={item.title} posterPath={item.poster_path}/>}
                 keyExtractor={(item) => item.id.toString()}
                 horizontal
                 showsHorizontalScrollIndicator={false}
